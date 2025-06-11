@@ -2,61 +2,78 @@ package org.example.huiswerktechiteasy.controllers;
 
 import org.example.huiswerktechiteasy.exceptions.RecordNotFoundException;
 import org.example.huiswerktechiteasy.models.Television;
-import org.springframework.http.HttpStatus;
+import org.example.huiswerktechiteasy.repositories.TelevisionRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.util.ArrayList;
+import java.net.URI;
 import java.util.List;
 
 @RestController
 @RequestMapping("/televisions")
 public class TelevisionController {
-    private final List<Television> televisionList = new ArrayList<>();
-    private int currentId = 1;
+    private final TelevisionRepository tvRepository;
+
+    public TelevisionController(TelevisionRepository tvRepository) {
+        this.tvRepository = tvRepository;
+    }
 
     @PostMapping
     public ResponseEntity<Television> createTelevision(@RequestBody Television tv) {
-        tv.setId(currentId++);
-        this.televisionList.add(tv);
-        return ResponseEntity.status(HttpStatus.CREATED).body(tv);
+        this.tvRepository.save(tv);
+        URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + tv.getId()).toUriString());
+        return ResponseEntity.created(uri).body(tv);
     }
 
     @GetMapping
     public ResponseEntity<List<Television>> getAllTelevisions() {
-        return ResponseEntity.ok(this.televisionList);
+        List<Television> tvList = this.tvRepository.findAll();
+        return ResponseEntity.ok(tvList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Television> getTelevisionById(@PathVariable int id) {
-        for (Television tv : televisionList) {
-            if (tv.getId() == id) {
-                return ResponseEntity.ok(tv);
+    public ResponseEntity<Television> getTelevisionById(@PathVariable Long id) {
+        var optionalTelevision = tvRepository.findById(id);
+            if (optionalTelevision.isPresent()) {
+                return ResponseEntity.ok(optionalTelevision.get());
             }
-        }
         throw new RecordNotFoundException("Televisie met id=" + id + " bestaat niet.");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Television> updateTelevisionById(@PathVariable int id, @RequestBody Television tv) {
-        for (int i = 0; i < televisionList.size(); i++) {
-            if (televisionList.get(i).getId() == id) {
-                tv.setId(id);
-                televisionList.set(i, tv);
-                return ResponseEntity.ok(tv);
-            }
+    public ResponseEntity<Television> updateTelevisionById(@PathVariable Long id, @RequestBody Television tv) {
+        var existingTv = this.tvRepository.findById(id);
+        if (existingTv.isPresent()) {
+            Television updatedTelevision = existingTv.get();
+            updatedTelevision.setType(tv.getType());
+            updatedTelevision.setBrand(tv.getBrand());
+            updatedTelevision.setName(tv.getName());
+            updatedTelevision.setPrice(tv.getPrice());
+            updatedTelevision.setAvailableSize(tv.getAvailableSize());
+            updatedTelevision.setRefreshRate(tv.getRefreshRate());
+            updatedTelevision.setScreenType(tv.getScreenType());
+            updatedTelevision.setScreenQuality(tv.getScreenQuality());
+            updatedTelevision.setSmartTv(tv.getSmartTv());
+            updatedTelevision.setWifi(tv.getWifi());
+            updatedTelevision.setVoiceControl(tv.getVoiceControl());
+            updatedTelevision.setHdr(tv.getHdr());
+            updatedTelevision.setBluetooth(tv.getBluetooth());
+            updatedTelevision.setAmbiLight(tv.getAmbiLight());
+            updatedTelevision.setOriginalStock(tv.getOriginalStock());
+            updatedTelevision.setSold(tv.getSold());
+            return ResponseEntity.ok(tvRepository.save(updatedTelevision));
         }
         throw new RecordNotFoundException("Televisie met id=" + id + " bestaat niet.");
     }
 
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTelevisionById(@PathVariable int id) {
-        for (int i = 0; i < televisionList.size(); i++) {
-            if (televisionList.get(i).getId() == id) {
-                televisionList.remove(i);
-                return ResponseEntity.ok("Televisie met id=" + id + " is verwijderd.");
+    public ResponseEntity<String> deleteTelevisionById(@PathVariable Long id) {
+            if (tvRepository.existsById(id)) {
+                tvRepository.deleteById(id);
+                return ResponseEntity.noContent().build();
             }
-        }
         throw new RecordNotFoundException("Televisie met id=" + id + " bestaat niet.");
     }
 
