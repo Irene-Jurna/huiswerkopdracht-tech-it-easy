@@ -2,6 +2,8 @@ package org.example.huiswerktechiteasy.models;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name="televisions")
 public class Television {
@@ -23,8 +25,8 @@ public class Television {
     private Boolean hdr;
     private Boolean bluetooth;
     private Boolean ambiLight;
-    private Integer originalStock;
-    private Integer sold;
+    private LocalDate originalStock;
+    private LocalDate sold;
 
     public Television() {
     }
@@ -36,7 +38,7 @@ public class Television {
         this.price = price;
     }
 
-    public Television(String type, String brand, String name, Double price, Double availableSize, Integer refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, Integer originalStock, Integer sold) {
+    public Television(String type, String brand, String name, Double price, Double availableSize, Integer refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, LocalDate originalStock, LocalDate sold) {
         this.type = type;
         this.brand = brand;
         this.name = name;
@@ -175,19 +177,19 @@ public class Television {
         this.ambiLight = ambiLight;
     }
 
-    public Integer getOriginalStock() {
+    public LocalDate getOriginalStock() {
         return originalStock;
     }
 
-    public void setOriginalStock(Integer originalStock) {
+    public void setOriginalStock(LocalDate originalStock) {
         this.originalStock = originalStock;
     }
 
-    public Integer getSold() {
+    public LocalDate getSold() {
         return sold;
     }
 
-    public void setSold(Integer sold) {
+    public void setSold(LocalDate sold) {
         this.sold = sold;
     }
 }
