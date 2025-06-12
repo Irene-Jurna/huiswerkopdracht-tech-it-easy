@@ -11,13 +11,20 @@ public class Television {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String type;
     private String brand;
     private String name;
     private Double price;
-    private Double availableSize;
+
+    @Enumerated(EnumType.STRING)
+    private AvailableSize availableSize;
+
     private Integer refreshRate;
-    private String screenType;
+
+    @Enumerated(EnumType.STRING)
+    private ScreenType screenType;
+
     private String screenQuality;
     private Boolean smartTv;
     private Boolean wifi;
@@ -38,7 +45,7 @@ public class Television {
         this.price = price;
     }
 
-    public Television(String type, String brand, String name, Double price, Double availableSize, Integer refreshRate, String screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, LocalDate originalStock, LocalDate sold) {
+    public Television(String type, String brand, String name, Double price, AvailableSize availableSize, Integer refreshRate, ScreenType screenType, String screenQuality, Boolean smartTv, Boolean wifi, Boolean voiceControl, Boolean hdr, Boolean bluetooth, Boolean ambiLight, LocalDate originalStock, LocalDate sold) {
         this.type = type;
         this.brand = brand;
         this.name = name;
@@ -97,11 +104,11 @@ public class Television {
         this.price = price;
     }
 
-    public Double getAvailableSize() {
+    public AvailableSize getAvailableSize() {
         return availableSize;
     }
 
-    public void setAvailableSize(Double availableSize) {
+    public void setAvailableSize(AvailableSize availableSize) {
         this.availableSize = availableSize;
     }
 
@@ -113,11 +120,11 @@ public class Television {
         this.refreshRate = refreshRate;
     }
 
-    public String getScreenType() {
+    public ScreenType getScreenType() {
         return screenType;
     }
 
-    public void setScreenType(String screenType) {
+    public void setScreenType(ScreenType screenType) {
         this.screenType = screenType;
     }
 
