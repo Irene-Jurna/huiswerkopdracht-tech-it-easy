@@ -64,6 +64,11 @@ public class Television {
         this.sold = sold;
     }
 
+    public Television(String brand, String name) {
+        this.brand = brand;
+        this.name = name;
+    }
+
     public Long getId() {
         return id;
     }
