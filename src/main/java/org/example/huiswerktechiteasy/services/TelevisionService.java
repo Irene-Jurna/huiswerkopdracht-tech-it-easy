@@ -35,4 +35,9 @@ public class TelevisionService {
         existingTv.setName(tvDto.getName());
         return this.televisionRepository.save(existingTv);
     }
+
+    public void deleteTelevisionById(Long id) {
+        Television tv = this.televisionRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Television " + id + " not found."));
+        this.televisionRepository.delete(tv);
+    }
 }

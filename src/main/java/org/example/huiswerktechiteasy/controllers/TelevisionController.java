@@ -33,7 +33,7 @@ public class TelevisionController {
     @GetMapping
     public ResponseEntity<List<TelevisionDto>> getAllTelevisions() {
         List<Television> tvList = this.tvService.getAllTelevisions();
-        List<TelevisionDto> tvResponseList  = tvList.stream().map(TelevisionMapper::toDto).toList();
+        List<TelevisionDto> tvResponseList = tvList.stream().map(TelevisionMapper::toDto).toList();
         return ResponseEntity.ok(tvResponseList);
     }
 
@@ -48,15 +48,10 @@ public class TelevisionController {
         TelevisionDto tvResponseDto = TelevisionMapper.toDto(tvToUpdate);
         return ResponseEntity.ok(tvResponseDto);
     }
-//
-//
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<String> deleteTelevisionById(@PathVariable Long id) {
-//            if (tvRepository.existsById(id)) {
-//                tvRepository.deleteById(id);
-//                return ResponseEntity.noContent().build();
-//            }
-//        throw new RecordNotFoundException("Televisie met id=" + id + " bestaat niet.");
-//    }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteTelevisionById(@PathVariable Long id) {
+        this.tvService.deleteTelevisionById(id);
+        return ResponseEntity.noContent().build();
+    }
 }
