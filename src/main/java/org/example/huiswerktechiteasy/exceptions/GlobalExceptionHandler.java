@@ -20,6 +20,12 @@ public class GlobalExceptionHandler {
     return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
   }
 
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<String> handleAllOtherExceptions(Exception e) {
+    return new ResponseEntity<>("Er ging iets mis: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  // Deze heeft chatGPT voor me gemaakt
   @ExceptionHandler(HttpMessageNotReadableException.class)
   public ResponseEntity<String> handleInvalidEnumDuringDeserialization(HttpMessageNotReadableException e) {
     if (e.getCause() instanceof InvalidFormatException ife && !ife.getPath().isEmpty()) {

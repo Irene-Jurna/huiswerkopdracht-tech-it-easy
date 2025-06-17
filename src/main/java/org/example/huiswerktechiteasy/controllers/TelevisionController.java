@@ -50,7 +50,7 @@ public class TelevisionController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteTelevisionById(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTelevisionById(@PathVariable Long id) {
         this.tvService.deleteTelevisionById(id);
         return ResponseEntity.noContent().build();
     }
