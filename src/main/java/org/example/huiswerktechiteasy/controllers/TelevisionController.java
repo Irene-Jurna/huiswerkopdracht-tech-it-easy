@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -31,20 +32,17 @@ public class TelevisionController {
         return ResponseEntity.created(uri).body(tvResponseDto);
     }
 
-//    @GetMapping
-//    public ResponseEntity<List<Television>> getAllTelevisions() {
-//        List<Television> tvList = this.tvRepository.findAll();
-//        return ResponseEntity.ok(tvList);
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<Television> getTelevisionById(@PathVariable Long id) {
-//        var optionalTelevision = tvRepository.findById(id);
-//            if (optionalTelevision.isPresent()) {
-//                return ResponseEntity.ok(optionalTelevision.get());
-//            }
-//        throw new RecordNotFoundException("Televisie met id=" + id + " bestaat niet.");
-//    }
+    @GetMapping
+    public ResponseEntity<List<TelevisionDto>> getAllTelevisions() {
+        List<Television> tvList = this.tvService.getAllTelevisions();
+        List<TelevisionDto> tvResponseList  = tvList.stream().map(TelevisionMapper::toDto).toList();
+        return ResponseEntity.ok(tvResponseList);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TelevisionDto> getTelevisionById(@PathVariable Long id) {
+        return ResponseEntity.ok(TelevisionMapper.toDto(this.tvService.getTelevisionById(id)));
+    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Television> updateTelevisionById(@PathVariable Long id, @RequestBody Television tv) {
