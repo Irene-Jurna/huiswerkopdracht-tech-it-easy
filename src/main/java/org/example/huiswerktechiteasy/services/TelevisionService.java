@@ -26,6 +26,13 @@ public class TelevisionService {
     }
 
     public Television getTelevisionById(Long id) {
-        return this.televisionRepository.findById(id).orElseThrow(()-> new RecordNotFoundException(" Television " + id + " not found."));
+        return this.televisionRepository.findById(id).orElseThrow(()-> new RecordNotFoundException("Television " + id + " not found."));
+    }
+
+    public Television updateTelevisionById(Long id, TelevisionInputDto tvDto) {
+        Television existingTv = this.televisionRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Television " + id + " not found."));
+        existingTv.setBrand(tvDto.getBrand());
+        existingTv.setName(tvDto.getName());
+        return this.televisionRepository.save(existingTv);
     }
 }
