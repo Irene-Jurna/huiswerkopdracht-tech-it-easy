@@ -1,16 +1,32 @@
 package org.example.huiswerktechiteasy.mappers;
 
-import org.example.huiswerktechiteasy.dtos.TelevisionDto;
-import org.example.huiswerktechiteasy.dtos.TelevisionInputDto;
+import org.example.huiswerktechiteasy.dtos.EmployeeTelevisionOutputDto;
+import org.example.huiswerktechiteasy.dtos.EmployeeTelevisionInputDto;
 import org.example.huiswerktechiteasy.models.Television;
+import org.springframework.beans.BeanUtils;
 
 public class TelevisionMapper {
-    public static Television toEntity(TelevisionInputDto tvDto) {
-        return new Television(tvDto.brand, tvDto.name);
+    public static Television toEntity(EmployeeTelevisionInputDto tvDto) {
+        Television television = new Television();
+        television.setType(tvDto.getType());
+        television.setBrand(tvDto.getBrand());
+        television.setName(tvDto.getName());
+        television.setPrice(tvDto.getPrice());
+        television.setAvailableSize(tvDto.getAvailableSize());
+        television.setRefreshRate(tvDto.getRefreshRate());
+        television.setScreenType(tvDto.getScreenType());
+        television.setScreenQuality(tvDto.getScreenQuality());
+        television.setSmartTv(tvDto.getSmartTv());
+        television.setWifi(tvDto.getWifi());
+        television.setVoiceControl(tvDto.getVoiceControl());
+        television.setHdr(tvDto.getHdr());
+        television.setBluetooth(tvDto.getBluetooth());
+        television.setAmbiLight(tvDto.getAmbiLight());
+        return television;
     }
 
-    public static TelevisionDto toDto(Television television) {
-        TelevisionDto televisionDto = new TelevisionDto();
+    public static EmployeeTelevisionOutputDto toDto(Television television) {
+        EmployeeTelevisionOutputDto televisionDto = new EmployeeTelevisionOutputDto();
         televisionDto.id = television.getId();
         televisionDto.type = television.getType();
         televisionDto.brand = television.getBrand();

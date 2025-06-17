@@ -1,8 +1,8 @@
 package org.example.huiswerktechiteasy.controllers;
 
 import jakarta.validation.Valid;
-import org.example.huiswerktechiteasy.dtos.TelevisionDto;
-import org.example.huiswerktechiteasy.dtos.TelevisionInputDto;
+import org.example.huiswerktechiteasy.dtos.EmployeeTelevisionOutputDto;
+import org.example.huiswerktechiteasy.dtos.EmployeeTelevisionInputDto;
 import org.example.huiswerktechiteasy.mappers.TelevisionMapper;
 import org.example.huiswerktechiteasy.models.Television;
 import org.example.huiswerktechiteasy.services.TelevisionService;
@@ -23,29 +23,29 @@ public class TelevisionController {
     }
 
     @PostMapping
-    public ResponseEntity<TelevisionDto> createTelevision(@Valid @RequestBody TelevisionInputDto tvDto) {
+    public ResponseEntity<EmployeeTelevisionOutputDto> createTelevision(@Valid @RequestBody EmployeeTelevisionInputDto tvDto) {
         Television tv = this.tvService.createTelevision(tvDto);
-        TelevisionDto tvResponseDto = TelevisionMapper.toDto(tv);
+        EmployeeTelevisionOutputDto tvResponseDto = TelevisionMapper.toDto(tv);
         URI uri = URI.create(ServletUriComponentsBuilder.fromCurrentRequest().path("/" + tv.getId()).toUriString());
         return ResponseEntity.created(uri).body(tvResponseDto);
     }
 
     @GetMapping
-    public ResponseEntity<List<TelevisionDto>> getAllTelevisions() {
+    public ResponseEntity<List<EmployeeTelevisionOutputDto>> getAllTelevisions() {
         List<Television> tvList = this.tvService.getAllTelevisions();
-        List<TelevisionDto> tvResponseList = tvList.stream().map(TelevisionMapper::toDto).toList();
+        List<EmployeeTelevisionOutputDto> tvResponseList = tvList.stream().map(TelevisionMapper::toDto).toList();
         return ResponseEntity.ok(tvResponseList);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TelevisionDto> getTelevisionById(@PathVariable Long id) {
+    public ResponseEntity<EmployeeTelevisionOutputDto> getTelevisionById(@PathVariable Long id) {
         return ResponseEntity.ok(TelevisionMapper.toDto(this.tvService.getTelevisionById(id)));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TelevisionDto> updateTelevisionById(@PathVariable Long id, @Valid @RequestBody TelevisionInputDto tvDto) {
+    public ResponseEntity<EmployeeTelevisionOutputDto> updateTelevisionById(@PathVariable Long id, @Valid @RequestBody EmployeeTelevisionInputDto tvDto) {
         Television tvToUpdate = this.tvService.updateTelevisionById(id, tvDto);
-        TelevisionDto tvResponseDto = TelevisionMapper.toDto(tvToUpdate);
+        EmployeeTelevisionOutputDto tvResponseDto = TelevisionMapper.toDto(tvToUpdate);
         return ResponseEntity.ok(tvResponseDto);
     }
 

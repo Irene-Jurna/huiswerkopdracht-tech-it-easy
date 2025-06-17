@@ -1,10 +1,11 @@
 package org.example.huiswerktechiteasy.services;
 
-import org.example.huiswerktechiteasy.dtos.TelevisionInputDto;
+import org.example.huiswerktechiteasy.dtos.EmployeeTelevisionInputDto;
 import org.example.huiswerktechiteasy.exceptions.RecordNotFoundException;
 import org.example.huiswerktechiteasy.mappers.TelevisionMapper;
 import org.example.huiswerktechiteasy.models.Television;
 import org.example.huiswerktechiteasy.repositories.TelevisionRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class TelevisionService {
         return televisionRepository.findById(id).orElseThrow(() -> new RecordNotFoundException("Cannot " + action + " television with id " + id + " because it does not exist."));
     }
 
-    public Television createTelevision(TelevisionInputDto tvDto) {
+    public Television createTelevision(EmployeeTelevisionInputDto tvDto) {
         return this.televisionRepository.save(TelevisionMapper.toEntity(tvDto));
     }
 
@@ -33,10 +34,9 @@ public class TelevisionService {
         return findTelevisionOrThrow(id, "get");
     }
 
-    public Television updateTelevisionById(Long id, TelevisionInputDto tvDto) {
+    public Television updateTelevisionById(Long id, EmployeeTelevisionInputDto tvDto) {
         Television existingTv = findTelevisionOrThrow(id, "update");
-        existingTv.setBrand(tvDto.getBrand());
-        existingTv.setName(tvDto.getName());
+        BeanUtils.copyProperties(tvDto, existingTv);
         return this.televisionRepository.save(existingTv);
     }
 

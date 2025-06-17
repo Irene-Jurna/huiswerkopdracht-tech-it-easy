@@ -3,8 +3,10 @@ package org.example.huiswerktechiteasy.dtos;
 import org.example.huiswerktechiteasy.models.AvailableSize;
 import org.example.huiswerktechiteasy.models.ScreenType;
 
+import java.time.LocalDate;
 
-public class TelevisionDto {
+// Geeft alle velden van Television terug, omdat medewerkers alle informatie mogen inzien
+public class EmployeeTelevisionOutputDto {
     public Long id;
     public String type;
     public String brand;
@@ -20,4 +22,6 @@ public class TelevisionDto {
     public Boolean hdr;
     public Boolean bluetooth;
     public Boolean ambiLight;
+    public LocalDate originalStock;
+    public LocalDate sold;
 }
